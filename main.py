@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from src.game import Game
+from src.core.game import Game
 from src.gui.terminal import TerminalGUI
 import sys
 

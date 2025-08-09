@@ -3,8 +3,9 @@ import pygame
 import sys
 from typing import List, Dict, Optional
 from dataclasses import dataclass
-from ..deck import Card
-from .base import BaseGUI, BasePlayerView, BaseMarketView
+from ..core import Card
+from .base import BaseGUI
+from .views import PlayerView, MarketView
 
 # Color constants
 WHITE = (255, 255, 255)
@@ -29,19 +30,6 @@ CARD_COLORS = {
 }
 
 
-@dataclass
-class PygamePlayerView(BasePlayerView):
-    name: str
-    hand: Dict[Card, int]
-    camels: int
-    tokens: int
-
-
-@dataclass
-class PygameMarketView(BaseMarketView):
-    goods: Dict[Card, int]
-    camels: int
-    
 
 class PygameGUI:
     def __init__(self):
@@ -85,7 +73,7 @@ class PygameGUI:
         self.screen.blit(text_surf, text_rect)
         return rect
 
-    def show_game_state(self, players: List[PygamePlayerView], market: PygameMarketView):
+    def show_game_state(self, players: List[PlayerView], market: MarketView):
         self.screen.fill(BEIGE)
 
         # Draw title
@@ -101,7 +89,7 @@ class PygameGUI:
 
         pygame.display.flip()
 
-    def _draw_market(self, market: PygameMarketView):
+    def _draw_market(self, market: MarketView):
         # Market title
         market_title = self.font.render("MARKET", True, BLACK)
         self.screen.blit(market_title, (50, 80))
@@ -117,8 +105,7 @@ class PygameGUI:
             self.screen.blit(self.card_images[Card.CAMEL], (x, y))
             x += 90
 
-
-    def _draw_player(self, player: PygamePlayerView, player_num: int):
+    def _draw_player(self, player: PlayerView, player_num: int):
         y_offset = 300 if player_num == 0 else 500
         player_title = self.font.render(player.name, True, BLACK)
         self.screen.blit(player_title, (50, y_offset))

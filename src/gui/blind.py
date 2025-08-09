@@ -1,20 +1,12 @@
 from abc import ABC, abstractmethod
 from typing import List
+from .views import PlayerView, MarketView
 
 
-class BasePlayerView(ABC):
-    name: str
-    hand: dict
-    camels: int
-    tokens: int
+class BlindGUI(ABC):
 
+    def show_game_state(self, players: List[PlayerView], market: MarketView) -> None:
+        pass
 
-class BaseMarketView(ABC):
-    goods: dict
-    camels: int
-
-
-class BaseGUI(ABC):
-    @abstractmethod
-    def show_game_state(self, players: List[BasePlayerView], market: BaseMarketView) -> None:
+    def show_turn_options(self, players: List[PlayerView], market: MarketView) -> None:
         pass

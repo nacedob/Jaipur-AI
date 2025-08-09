@@ -1,11 +1,11 @@
 from typing import List
 from collections import defaultdict
 from .market import Market
-from .player import Player
+from ..players.player import Player
 from .deck import Deck, Card
-from .gui import (TerminalGUI, TerminalMarketView, TerminalPlayerView,
-                  PygameGUI, PygamePlayerView, PygameMarketView,
-                  BaseGUI, BasePlayerView, BaseMarketView)
+from ..gui import (TerminalGUI,
+                  PygameGUI,
+                  BaseGUI, PlayerView, MarketView)
 
 
 class Game:
@@ -14,8 +14,6 @@ class Game:
         self.market = Market(self.deck)
         self.players: List[Player] = [Player("Player 1"), Player("Player 2")]
         self.gui: BaseGUI = TerminalGUI() if gui == 'terminal' else PygameGUI()
-        self.playerview_class: BasePlayerView = TerminalPlayerView if gui == 'terminal' else PygamePlayerView
-        self.marketview_class: BaseMarketView = TerminalMarketView if gui == 'terminal' else PygameMarketView
         self.transactions = {card: 0 for card in Card}
 
         for p in self.players:
@@ -23,18 +21,18 @@ class Game:
             p.add_cards_to_hand(initial)
         self.turn = 0
 
-    def get_player_view(self, player: Player) -> BasePlayerView:
+    def get_player_view(self, player: Player) -> PlayerView:
         hand_counts = {card: player.hand.count(card) for card in Card}
-        return self.playerview_class(
+        return PlayerView(
             name=player.name,
             hand=hand_counts,
             camels=len(player.camels),
             tokens=sum(player.tokens)
         )
 
-    def get_market_view(self) -> BaseMarketView:
+    def get_market_view(self) -> MarketView:
         goods_counts = {card: self.market.cards.count(card) for card in Card if card != Card.CAMEL}
-        return self.marketview_class(
+        return MarketView(
             goods=goods_counts,
             camels=self.market.cards.count(Card.CAMEL)
         )
@@ -48,7 +46,7 @@ class Game:
         # Show game state
         players_view = [self.get_player_view(p) for p in self.players]
         market_view = self.get_market_view()
-        self.gui.show_game_state(players_view, market_view)
+        self.gui.show_game_state(players_view, market_view, current_player.name)
 
         # Get player action
         self.gui.show_turn_options()

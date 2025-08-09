@@ -1,7 +1,7 @@
 from typing import List
-from .market import Market
-from .deck import Deck, Card
-from .utils import sell_tokens_for
+from ..core.market import Market
+from ..core.deck import Deck, Card
+from ..core.utils import sell_tokens_for
 
 
 class Player:

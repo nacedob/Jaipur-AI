@@ -1,15 +1,15 @@
-from .terminal import TerminalGUI, TerminalPlayerView as TerminalPlayerView, TerminalMarketView as TerminalMarketView
-from .pygame import PygameGUI, PygamePlayerView as PygamePlayerView, PygameMarketView as PygameMarketView
-from .base import BaseGUI, BasePlayerView, BaseMarketView
+from .terminal import TerminalGUI
+from .pygame import PygameGUI
+from .blind import BlindGUI
+from .base import BaseGUI
+from .views import PlayerView, MarketView
+
 
 __all__ = [
     'TerminalGUI',
-    'TerminalPlayerView',
-    'TerminalMarketView',
     'PygameGUI',
-    'PygamePlayerView',
-    'PygameMarketView',
+    'BlindGUI',
     'BaseGUI',
-    'BasePlayerView',
-    'BaseMarketView'
+    'PlayerView',
+    'MarketView'
 ]
