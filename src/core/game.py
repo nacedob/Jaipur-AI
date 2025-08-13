@@ -1,7 +1,7 @@
 from typing import List
 from collections import defaultdict
 from .market import Market
-from ..players.player import Player
+from .players import BasePlayer, AIPlayer, HumanPlayer
 from .deck import Deck, Card
 from ..gui import (TerminalGUI,
                   PygameGUI,
@@ -9,19 +9,26 @@ from ..gui import (TerminalGUI,
 
 
 class Game:
-    def __init__(self, gui: str = 'terminal') -> None:
+    def __init__(self, gui: str = 'terminal', player_types: List[str] = ['human', 'human']) -> None:
         self.deck = Deck()
         self.market = Market(self.deck)
-        self.players: List[Player] = [Player("Player 1"), Player("Player 2")]
         self.gui: BaseGUI = TerminalGUI() if gui == 'terminal' else PygameGUI()
+        
+        # Create players based on types
+        self.players: List[BasePlayer] = []
+        for i, p_type in enumerate(player_types, 1):
+            if p_type == 'human':
+                self.players.append(HumanPlayer(f"Player {i}", self.gui))
+            else:
+                self.players.append(AIPlayer(f"AI {i}"))
+        
         self.transactions = {card: 0 for card in Card}
-
         for p in self.players:
             initial = self.deck.draw(5)
             p.add_cards_to_hand(initial)
         self.turn = 0
 
-    def get_player_view(self, player: Player) -> PlayerView:
+    def get_player_view(self, player: BasePlayer) -> PlayerView:
         hand_counts = {card: player.hand.count(card) for card in Card}
         return PlayerView(
             name=player.name,

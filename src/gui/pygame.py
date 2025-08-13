@@ -4,7 +4,7 @@ import sys
 from typing import List, Dict, Optional
 from dataclasses import dataclass
 from ..core import Card
-from .base import BaseGUI
+from .basegui import BaseGUI
 from .views import PlayerView, MarketView
 
 # Color constants

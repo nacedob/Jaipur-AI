@@ -1,7 +1,7 @@
 # gui.py
 from typing import List, Dict, Optional
 from ..core import Card
-from .base import BaseGUI
+from .basegui import BaseGUI
 from .views import PlayerView, MarketView
 from colorama import init, Fore, Back, Style
 from tabulate import tabulate

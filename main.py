@@ -5,11 +5,12 @@ import sys
 
 
 def main():
+    players = ['human', 'ai']
     try:
         if len(sys.argv) > 1 and sys.argv[1] == 'pygame':
-            game = Game('pygame')
+            game = Game(gui='pygame', player_types=players)
         else:
-            game = Game('terminal')
+            game = Game(gui='terminal', player_types=players)
         print("Starting Jaipur Game...")
         game.play()
     except KeyboardInterrupt:

@@ -1,7 +1,7 @@
 from .terminal import TerminalGUI
 from .pygame import PygameGUI
 from .blind import BlindGUI
-from .base import BaseGUI
+from .basegui import BaseGUI
 from .views import PlayerView, MarketView
 
 
